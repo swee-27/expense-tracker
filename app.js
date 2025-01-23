@@ -37,6 +37,21 @@ const expenseSchema=new mongoose.Schema({
 })
 const Expense=mongoose.model("Expense",expenseSchema)
 
+
+
+app.get("/api/expenses",async (req, res) => {
+    try{
+    const expenses = await Expense.find()
+    if(!expenses){
+      res.status(406).send({message:"No expense found"})
+      return
+    }
+    res.status(200).json(expenses);
+  }catch{
+    res.status(500).json({message:"Internal Server Error"})
+  }
+  });
+
 app.get("/api/expenses/:id",async(req,res)=>{
     //const expenses= await Expense.find(); to find all
     //console.log(req.query)
